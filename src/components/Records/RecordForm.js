@@ -12,6 +12,7 @@ function createRecord(record) {
 	const records = JSON.parse(window.localStorage.getItem("records")) || [];
 	record = {
 		id: (new Date()).getTime(),
+		createdAt: moment().format(),
 		...record
 	}
 	records.push(record);

@@ -1,0 +1,7 @@
+.strip {
+  width: 100%;
+  height: 30px;
+  border-radius: 5px;
+  border-color: red;
+  border: 3px;
+}
