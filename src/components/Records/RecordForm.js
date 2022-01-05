@@ -10,6 +10,10 @@ const moment = require("moment-timezone");
 
 function createRecord(record) {
 	const records = JSON.parse(window.localStorage.getItem("records")) || [];
+	record = {
+		id: (new Date()).getTime(),
+		...record
+	}
 	records.push(record);
 	window.localStorage.setItem("records", JSON.stringify(records));
 }
@@ -43,6 +47,7 @@ export default function RecordForm() {
 				disablePortal
 				id="combo-box-demo"
 				options={subjects.map(sub => sub.name)}
+				value={subject}
 				onChange={(event, value) => setSubject(value)}
 				sx={{ width: "100%" }}
 				renderInput={(params) => <TextField {...params} label="Select Subject" style={{ width: '98%', paddingBottom: 20 }} />}
@@ -59,6 +64,9 @@ export default function RecordForm() {
 				}}
 				onClick={(e) => {
 					createRecord({ date, subject, hour, minutes })
+					setSubject("")
+					setHour(0)
+					setMinutes(0)
 				}}
 				disabled={!date || !subject || !(hour || minutes)}
 			>
