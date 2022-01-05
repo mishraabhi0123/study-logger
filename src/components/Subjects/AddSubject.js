@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 
 function createSubject({ name, colour }) {
 	const sub = {
-		id: new Date(),
+		id: (new Date()).getTime(),
 		name,
 		colour
 	}
@@ -15,13 +15,13 @@ function createSubject({ name, colour }) {
 }
 
 export default function AddSubject() {
-	const [name, setName] = useState(null)
-	const [colour, setColour] = useState(null)
+	const [name, setName] = useState("")
+	const [colour, setColour] = useState("#ffffff")
 
 	return (
 		<div>
 			<div style={{ textAlign: 'center' }}>
-				<h3>Add Subject</h3>
+				<h3>Subjects</h3>
 				<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 					<TextField id="outlined-basic" value={name} label="Subject Name" variant="outlined" onChange={(e) => setName(e.target.value)} />
 					<input
@@ -32,6 +32,7 @@ export default function AddSubject() {
 							width: 55,
 							margin: 0
 						}}
+						value={colour}
 					/>
 				</div>
 				<Button

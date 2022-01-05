@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createBrowserHistory } from 'history'
 
 import Subjects from '../components/Subjects';
+import RecordForm from '../components/Records/RecordForm';
 
 const history = createBrowserHistory();
 
@@ -13,7 +14,8 @@ const AppRouter = () => {
 				<Suspense>
 					<Routes>
 						<Route path="/subjects" element={<Subjects />} />
-						<Route path="/" />
+						<Route path="/records" element={<RecordForm />} />
+						<Route path="/" element={<h1>Server Running</h1>} />
 					</Routes>
 				</Suspense>
 			</main>
