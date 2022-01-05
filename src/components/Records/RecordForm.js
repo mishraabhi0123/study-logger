@@ -5,9 +5,14 @@ import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Button } from '@mui/material';
 
-
 import React, { useState } from 'react'
 const moment = require("moment-timezone");
+
+function createRecord(record) {
+	const records = JSON.parse(window.localStorage.getItem("records")) || [];
+	records.push(record);
+	window.localStorage.setItem("records", JSON.stringify(records));
+}
 
 export default function RecordForm() {
 	const [subject, setSubject] = useState(null);
@@ -53,9 +58,9 @@ export default function RecordForm() {
 					backgroundColor: "green"
 				}}
 				onClick={(e) => {
-					console.log({ date, subject, hour, minutes })
+					createRecord({ date, subject, hour, minutes })
 				}}
-				disabled={!date || !subject || (!hour && !minutes)}
+				disabled={!date || !subject || !(hour || minutes)}
 			>
 				Add
 			</Button>
