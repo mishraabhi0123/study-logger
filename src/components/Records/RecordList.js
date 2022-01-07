@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import moment from 'moment-timezone';
 import "../../style/index.css"
+import DataTable from 'react-data-table-component';
+
 
 
 export default function RecordList() {
 	const [n, setN] = useState(7);
 	let records = useMemo(() => JSON.parse(window.localStorage.getItem("records")) || [], []);
-	console.log({ records })
 	let filteredRecords = useRef([]);
 
 	useEffect(() => {
@@ -14,6 +15,33 @@ export default function RecordList() {
 			return moment(record.createdAt) < moment().add(1, 'day') && moment(record.createdAt) > moment().subtract(n, 'days')
 		})
 	}, [n, records])
+
+	const columns = [
+		{
+			name: "Date",
+			selector: "date",
+			width: "100px",
+			sortable: true,
+			cell: (row) => moment(row.date).format("MMMM Do YYYY")
+		},
+		{
+			name: 'Subject',
+			selector: 'subject',
+			width: '100px',
+		},
+		{
+			name: 'Hours',
+			selector: 'hour',
+			width: '90px',
+			sortable: true,
+		},
+		{
+			name: 'Minutes',
+			selector: 'minutes',
+			width: '90px',
+			sortable: true,
+		}
+	]
 
 	return (
 		<>
@@ -23,26 +51,20 @@ export default function RecordList() {
 					type="number"
 					value={n}
 					onChange={(e) => setN(e.target.value)}
-					style={{
-						height: "10px",
-						width: "10px",
-						marginTop: 15,
-						marginLeft: 5,
-						marginRight: 5
-					}}
 				/>
 				<pre>{n > 1 ? "days" : "day"}</pre>
-			</div >
+			</div>
 			<div>
-				{
-					records.map(({ hour, minutes, subject, createdAt, date, id }, i) => {
-						return (
-							<div className="strip" key={id}>
-								<pre>{`${i + 1}) ${subject} - ${Number(hour) ? (Number(hour) > 0 ? `${Number(hour)} hours` : `${Number(hour)} hour`) : ""} ${Number(minutes) ? (Number(minutes) > 0 ? `${Number(minutes)} minutes` : `${Number(minutes)} minute`) : ""}`}</pre>
-							</div>
-						)
-					})
-				}
+				<DataTable
+					columns={columns}
+					noHeader={true}
+					defaultSortFieldId='name'
+					dense
+					defaultSortAsc={true}
+					pagination={true}
+					data={records}
+					paginationRowsPerPageOptions={[10, 30, records?.length]}
+				/>
 			</div>
 		</>
 	)
