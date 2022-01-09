@@ -1,12 +1,15 @@
 import React from 'react'
+import { withSubjectContext } from '../../context/subject'
 import SubjectForm from "./SubjectForm"
 import SubjectList from "./SubjectList"
 
-export default function Index() {
+function Index() {
 	return (
 		<div style={{ maxWidth: 350 }}>
-			<SubjectForm onSave={(data) => console.log(data)} />
+			<SubjectForm />
 			<SubjectList />
 		</div>
 	)
 }
+
+export default withSubjectContext(Index);

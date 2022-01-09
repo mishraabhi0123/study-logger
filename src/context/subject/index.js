@@ -15,6 +15,7 @@ export const withSubjectContext = (Component) => (props) => {
 
 	function createSubject(Subject) {
 		const subs = create(MODEL.SUBJECT, Subject)
+		console.log({ subs })
 		setSubjects(subs)
 		return subs
 	}
