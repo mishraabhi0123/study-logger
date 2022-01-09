@@ -80,7 +80,7 @@ export const withRecordContext = (Component) => (props) => {
 					}),
 					borderColor: colour,
 					backgroundColor: "rgba(255, 99, 132, 0.5)",
-					lineTension: 0,
+					lineTension: 0.2,
 				}
 			})
 		}

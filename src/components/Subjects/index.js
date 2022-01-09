@@ -1,5 +1,4 @@
 import React from 'react'
-import { withSubjectContext } from '../../context/subject'
 import SubjectForm from "./SubjectForm"
 import SubjectList from "./SubjectList"
 
@@ -12,4 +11,4 @@ function Index() {
 	)
 }
 
-export default withSubjectContext(Index);
+export default Index;

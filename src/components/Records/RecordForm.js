@@ -1,9 +1,10 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import RecordContext, { withRecordContext } from "../../context/record"
 import moment from "moment-timezone"
 import { Button, Grid, TextField, Typography } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import SubjectContext, { withSubjectContext } from '../../context/subject'
+import Notifier from '../utils/Notifier'
 
 const initialFormData = {
 	subject: '',
@@ -20,6 +21,7 @@ const reducer = (state, newState) => {
 }
 
 function RecordForm() {
+	const [message, setMessage] = useState("")
 	const { createRecord } = useContext(RecordContext)
 	const { subjects } = useContext(SubjectContext)
 
@@ -87,10 +89,14 @@ function RecordForm() {
 						color="primary"
 						// disabled={!(name !== null && colour !== "#ffffff")}
 						onClick={() => {
-							createRecord(record)
+							const data = createRecord(record)
+							if (data) {
+								setMessage("Record created successfully.")
+							}
 						}}
 					>Create</Button>
 				</Grid>
+				<Notifier message={message} setMessage={setMessage} severity={"success"} />
 			</Grid>
 		</div >
 	)
