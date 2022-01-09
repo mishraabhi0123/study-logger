@@ -1,79 +1,99 @@
-// import { Autocomplete } from '@material-ui/core'
-// import TextField from '@material-ui/core/TextField';
-// import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-// import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
-// import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-// import { Button } from '@material-ui/core';
+import React, { useContext, useReducer } from 'react'
+import RecordContext, { withRecordContext } from "../../context/record"
+import moment from "moment-timezone"
+import { Button, Grid, TextField, Typography } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab'
+import SubjectContext, { withSubjectContext } from '../../context/subject'
 
-import React, { useState } from 'react'
-// const moment = require("moment-timezone");
+const initialFormData = {
+	subject: '',
+	date: moment().format('DD-MM-YYYY'),
+	hours: '',
+	minutes: ''
+}
 
-// function createRecord(record) {
-// 	const records = JSON.parse(window.localStorage.getItem("records")) || [];
-// 	record = {
-// 		id: (new Date()).getTime(),
-// 		createdAt: moment().format(),
-// 		...record
-// 	}
-// 	records.push(record);
-// 	window.localStorage.setItem("records", JSON.stringify(records));
-// }
+const reducer = (state, newState) => {
+	return {
+		...state,
+		...newState
+	}
+}
 
-export default function RecordForm() {
-	// const [subject, setSubject] = useState(null);
-	// const [date, setDate] = useState(moment().format());
-	// const [hour, setHour] = useState(0);
-	// const [minutes, setMinutes] = useState(0);
+function RecordForm() {
+	const { createRecord } = useContext(RecordContext)
+	const { subjects } = useContext(SubjectContext)
 
-	// const subjects = JSON.parse(window.localStorage.getItem("subjects")) || [];
+	const [record, dispatchRecord] = useReducer(reducer, initialFormData)
+
 	return (
-		<div>
-			{/* <br />
-			<h1 style={{ textAlign: "center" }}>Record study hours</h1>
-			<br />
-			<LocalizationProvider dateAdapter={AdapterDateFns}>
-				<MobileDatePicker
-					label="Select Date"
-					views={['day', 'month', 'year']}
-					value={date}
-					onChange={(newValue) => {
-						setDate(newValue);
-					}}
-					style={{ margin: 20 }}
-					renderInput={(params) => <TextField {...params} style={{ width: '98%', paddingBottom: 20 }} />}
-				/>
-			</LocalizationProvider>
-
-			<Autocomplete
-				disablePortal
-				id="combo-box-demo"
-				options={subjects.map(sub => sub.name)}
-				value={subject}
-				onChange={(event, value) => setSubject(value)}
-				sx={{ width: "100%" }}
-				renderInput={(params) => <TextField {...params} label="Select Subject" style={{ width: '98%', paddingBottom: 20 }} />}
-			/>
-
-			<TextField label="Hours" type="number" value={hour} style={{ width: '98%', paddingBottom: 20 }} onChange={(e) => setHour(e.target.value)} />
-			<TextField label="Minutes" type="number" value={minutes} style={{ width: '98%', paddingBottom: 20 }} onChange={(e) => setMinutes(e.target.value)} />
-			<Button
-				variant="contained"
-				style={{
-					width: "100%",
-					marginTop: 10,
-					backgroundColor: "green"
-				}}
-				onClick={(e) => {
-					createRecord({ date, subject, hour, minutes })
-					setSubject("")
-					setHour(0)
-					setMinutes(0)
-				}}
-				disabled={!date || !subject || !(hour || minutes)}
-			>
-				Add
-			</Button> */}
-
-		</div>
+		<div style={{ padding: 15 }}>
+			<Typography variant="h4" style={{ padding: 15, paddingLeft: 0 }}> Study Records </Typography>
+			<Grid container spacing={3}>
+				<Grid item xs={12}>
+					<TextField
+						type="date"
+						view={["month", "year"]}
+						variant="outlined"
+						fullWidth
+						label="Date"
+						defaultValue={moment().format("yyyy-MM-DD")}
+						onChange={(e) => dispatchRecord({ ...record, date: e.target.value })}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<Autocomplete
+						disablePortal
+						id="combo-box-demo"
+						options={subjects}
+						getOptionLabel={subject => subject.name}
+						getOptionSelected={subject => subject.name}
+						sx={{ width: 300 }}
+						onChange={(e, subject) => {
+							dispatchRecord({ ...record, subject: subject.name })
+						}}
+						renderInput={(params) =>
+							<TextField
+								{...params}
+								type="text"
+								variant="outlined"
+								label="Subject Name"
+								fullWidth
+							/>}
+					/>
+				</Grid>
+				<Grid item xs={6}>
+					<TextField
+						type="number"
+						variant="outlined"
+						label="Hours"
+						fullWidth
+						onChange={(e) => dispatchRecord({ ...record, hours: e.target.value })}
+					/>
+				</Grid>
+				<Grid item xs={6}>
+					<TextField
+						type="number"
+						variant="outlined"
+						label="Minutes"
+						fullWidth
+						onChange={(e) => dispatchRecord({ ...record, minutes: e.target.value })}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<Button
+						variant="contained"
+						fullWidth
+						label="Subject Name"
+						color="primary"
+						// disabled={!(name !== null && colour !== "#ffffff")}
+						onClick={() => {
+							createRecord(record)
+						}}
+					>Create</Button>
+				</Grid>
+			</Grid>
+		</div >
 	)
 }
+
+export default withSubjectContext(withRecordContext(RecordForm))

@@ -19,6 +19,7 @@ function findAll(modelName, where = null) {
 			}
 			return true
 		}
+		return true
 	})
 	return objects
 }
