@@ -57,7 +57,9 @@ function update(modelName, id, updatedObject) {
 
 function remove(modelName, id) {
 	let objects = JSON.parse(localStorage.getItem(modelName)) || []
-	objects = objects.filter(object => object.id === id)
+	console.log({ before: objects })
+	objects = objects.filter(object => Number(object.id) !== Number(id))
+	console.log({ after: objects })
 	localStorage.setItem(modelName, JSON.stringify(objects))
 	return objects
 }

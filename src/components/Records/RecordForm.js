@@ -1,34 +1,34 @@
-import { Autocomplete } from '@mui/material'
-import TextField from '@mui/material/TextField';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import MobileDatePicker from '@mui/lab/MobileDatePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Button } from '@mui/material';
+// import { Autocomplete } from '@material-ui/core'
+// import TextField from '@material-ui/core/TextField';
+// import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+// import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
+// import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+// import { Button } from '@material-ui/core';
 
 import React, { useState } from 'react'
-const moment = require("moment-timezone");
+// const moment = require("moment-timezone");
 
-function createRecord(record) {
-	const records = JSON.parse(window.localStorage.getItem("records")) || [];
-	record = {
-		id: (new Date()).getTime(),
-		createdAt: moment().format(),
-		...record
-	}
-	records.push(record);
-	window.localStorage.setItem("records", JSON.stringify(records));
-}
+// function createRecord(record) {
+// 	const records = JSON.parse(window.localStorage.getItem("records")) || [];
+// 	record = {
+// 		id: (new Date()).getTime(),
+// 		createdAt: moment().format(),
+// 		...record
+// 	}
+// 	records.push(record);
+// 	window.localStorage.setItem("records", JSON.stringify(records));
+// }
 
 export default function RecordForm() {
-	const [subject, setSubject] = useState(null);
-	const [date, setDate] = useState(moment().format());
-	const [hour, setHour] = useState(0);
-	const [minutes, setMinutes] = useState(0);
+	// const [subject, setSubject] = useState(null);
+	// const [date, setDate] = useState(moment().format());
+	// const [hour, setHour] = useState(0);
+	// const [minutes, setMinutes] = useState(0);
 
-	const subjects = JSON.parse(window.localStorage.getItem("subjects")) || [];
+	// const subjects = JSON.parse(window.localStorage.getItem("subjects")) || [];
 	return (
 		<div>
-			<br />
+			{/* <br />
 			<h1 style={{ textAlign: "center" }}>Record study hours</h1>
 			<br />
 			<LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -72,7 +72,7 @@ export default function RecordForm() {
 				disabled={!date || !subject || !(hour || minutes)}
 			>
 				Add
-			</Button>
+			</Button> */}
 
 		</div>
 	)

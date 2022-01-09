@@ -1,21 +1,34 @@
-import { createContext } from "react"
+import { createContext, useEffect, useState } from "react"
 import { MODEL } from "../../constants"
 import { create, update, remove, findByPk, findAll } from "../model"
 
-const Context = createContext(null)
-export default Context
+const SubjectContext = createContext(null)
+export default SubjectContext
 
-export const withContext = (Component) => (props) => {
+export const withSubjectContext = (Component) => (props) => {
+	const [subjects, setSubjects] = useState([])
+
+	useEffect(() => {
+		const subs = getSubjects()
+		setSubjects(subs)
+	}, [])
+
 	function createSubject(Subject) {
-		return create(MODEL.SUBJECT, Subject)
+		const subs = create(MODEL.SUBJECT, Subject)
+		setSubjects(subs)
+		return subs
 	}
 
 	function updateSubject(id, Subject) {
-		return update(MODEL.SUBJECT, id, Subject)
+		const subs = update(MODEL.SUBJECT, id, Subject)
+		setSubjects(subs)
+		return subs
 	}
 
 	function deleteSubject(id) {
-		return remove(MODEL.SUBJECT, id)
+		const subs = remove(MODEL.SUBJECT, id)
+		setSubjects(subs)
+		return subs
 	}
 
 	function getSubjects(startDate, endDate) {
@@ -27,16 +40,17 @@ export const withContext = (Component) => (props) => {
 	}
 
 	return (
-		<Context.Provider
+		<SubjectContext.Provider
 			value={{
 				createSubject,
 				updateSubject,
 				deleteSubject,
 				getSubjects,
 				getSubject,
+				subjects
 			}}
 		>
 			<Component {...props} />
-		</Context.Provider>
+		</SubjectContext.Provider>
 	)
 }

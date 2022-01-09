@@ -5,7 +5,7 @@ import { create, update, remove, findByPk, findAll } from "../model"
 const RecordContext = createContext(null)
 export default RecordContext
 
-export const withContext = (Component) => (props) => {
+export const withRecordContext = (Component) => (props) => {
 	function createRecord(record) {
 		return create(MODEL.RECORD, record)
 	}

@@ -1,33 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { useContext, useEffect, useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SubjectContext, { withSubjectContext } from '../../context/subject';
+import { Typography } from '@material-ui/core';
+import ConfirmAndSubmit from '../utils/ConfirmAndSubmit'
 
 
-export default function SubjectList() {
-	let [subjects, setSubjects] = useState([])
 
-	function handleDelete(e) {
-		const deleteId = e.target.parentElement.parentElement.id
-		console.log({ deleteId })
-		let subs = subjects.filter(({ id }) => Number(id) !== Number(deleteId))
-		console.log({ subs })
-
-		setSubjects(subs);
-		window.localStorage.setItem("subjects", JSON.stringify(subs));
-	}
+function SubjectList() {
+	const [subjectArray, setSubjectArray] = useState([])
+	const { subjects, deleteSubject } = useContext(SubjectContext)
 
 	useEffect(() => {
-		let subs = JSON.parse(window.localStorage.getItem("subjects")) || [];
-		if (subs.length) {
-			subs.sort((a, b) => b.id - a.id)
-		}
-		setSubjects(subs);
-	}, [])
+		setSubjectArray(subjects)
+	}, [subjects])
+
 	return (
-		<div style={{ overflowY: "scroll", height: 300, marginTop: 30, borderRadius: "5px" }}>
-			{subjects.length ?
+		<div style={{ padding: 10, height: "60vh", overflowY: "scroll" }}>
+			{subjectArray.length ?
 				<div>
 					{
-						subjects.map((sub) => {
+						subjectArray.map((sub) => {
 							return (
 								<div
 									id={sub.id}
@@ -35,21 +27,23 @@ export default function SubjectList() {
 									style={{
 										display: "flex",
 										justifyContent: "space-between",
+										padding: 10,
+										margin: 5,
+										borderBottom: `1px solid #cccccc`,
+										borderLeft: `2px solid ${sub.colour}`,
+										borderRight: `2px solid ${sub.colour}`
 									}}>
-									<h4 style={{ paddingLeft: 20 }}> {sub.name} </h4>
-									<div
-										style={{
-											position: "relative",
-											top: 7,
-											height: 30,
-											width: 30,
-											borderRadius: 100,
-											margin: 10,
-											backgroundColor: sub.colour
+									<Typography variant="h6" > {sub.name} </Typography>
+
+									<ConfirmAndSubmit
+										onSubmit={(e) => {
+											console.log(e.target.parentElement.id)
+											deleteSubject(e.target.parentElement.id)
 										}}
-									></div>
-									<DeleteIcon style={{ position: "relative", top: 10, padding: 10, color: "gray" }}
-										onClick={(e) => handleDelete(e)}
+										color='secondary'
+										ButtonComponent={(props) =>
+											<DeleteIcon id={sub.id} style={{ margin: 5, color: "gray" }} {...props} />
+										}
 									/>
 								</div>
 							)
@@ -63,3 +57,5 @@ export default function SubjectList() {
 		</div >
 	)
 }
+
+export default withSubjectContext(SubjectList)

@@ -1,19 +1,21 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import AppRouter from "./routes";
+import "./style/main.css";
+
 
 function App() {
   const theme = createTheme({
     typography: {
-      fontFamily: "Poppins",
+      fontFamily: "Roboto",
     },
     palette: {
       default: {
         light: "#000",
       },
       primary: {
-        light: "rgb(175 117 86)",
-        main: "rgb(175 117 86)",
-        dark: "rgb(129 86 63)",
+        light: "#4687f0",
+        main: "#0f68f7",
+        dark: "#043078",
         contrastText: "#fff",
       },
       secondary: {

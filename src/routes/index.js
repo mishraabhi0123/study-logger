@@ -4,7 +4,6 @@ import { createBrowserHistory } from 'history'
 
 import Subjects from '../components/Subjects';
 import RecordForm from '../components/Records/RecordForm';
-import TestRouter from './tests';
 import RecordList from '../components/Records/RecordList';
 
 const history = createBrowserHistory();
@@ -17,8 +16,7 @@ const AppRouter = () => {
 					<Routes>
 						<Route path="/subjects" element={<Subjects />} />
 						<Route path="/records" element={<RecordForm />} />
-						<Route path="/tests" element={<TestRouter />} />
-						<Route path="/" element={< RecordList />} />
+						<Route path="/" element={< Subjects />} />
 					</Routes>
 				</Suspense>
 			</main>
